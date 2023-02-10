@@ -1,0 +1,50 @@
+<div class="container text-center">
+
+  <form [formGroup]="prospect" method="post" (ngSubmit)="onSubmit()">
+
+
+    <input id="name" class="form-control my-3" type="text" placeholder="Digite seu nome" formControlName="name">
+    <input id="email" class="form-control my-3" type="email" placeholder="Digite seu email" formControlName="email">
+    <input id="phone" name="phone" class="form-control my-3" type="text" placeholder="Digite seu telefone"
+      formControlName="phone">
+    <input title="file" class="form-control my-3" type="file" (change)="onChange($event)">
+
+    <button type="submit" class="btn btn-success">
+      Upload
+    </button>
+  </form>
+
+  <div class="mt-5">
+    <h2 class="text-start mb-5">Prospectados</h2>
+    <table class="table ">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Documento</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of getAllData?.prospects">
+          <td>{{item.name}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.phone}}</td>
+          <td><a [href]="sanitize(item.document)">baixar</a></td>
+          <td>
+
+
+            <button  class="btn btn-danger" (onClick)="deleteProspect('{{item.id}} | async')">
+              excluir
+            </button>
+
+
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
