@@ -59,11 +59,7 @@ export class FileUploadComponent implements OnInit {
       })
   }
 
-  async deleteProspect(id: string) {
-   
-    this.api
-      .deleteProspects(id)
-      .subscribe((data) => console.log(data))
-
+  deleteProspect(id: string) {
+    this.api.deleteProspects(id).subscribe((data) => console.log(data))
   }
 }

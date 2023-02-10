@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, catchError, map, tap } from 'rxjs'
+import { Observable, catchError, delay, map, retryWhen, take, tap } from 'rxjs'
 @Injectable({
   providedIn: 'root',
 })
@@ -28,5 +28,6 @@ export class ApiService {
     return this.http
       .delete(`${this.baseApiUrl}/prospects/delete/${id}`)
       .pipe(map((obj: any) => obj))
+      .pipe(retryWhen((errors) => errors.pipe(delay(1000), take(3))))
   }
 }
