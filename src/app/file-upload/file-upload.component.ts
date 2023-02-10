@@ -1,20 +1,15 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core'
+import { Component, Input, OnChanges, OnInit } from '@angular/core'
 import { ApiService } from '../api.service'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
+import { distinctUntilChanged, interval, mergeMap } from 'rxjs'
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent implements OnInit, OnChanges {
   public getAllData: any
 
   private setAllData: any
@@ -46,6 +41,13 @@ export class FileUploadComponent implements OnInit {
     this.file = event.target.files[0]
   }
 
+  ngOnChanges() {
+    this.api.readProspects().subscribe((data) => {
+      this.setAllData = data
+      this.getAllData = this.setAllData
+    })
+  }
+
   onSubmit() {
     this.loading = !this.loading
     this.api
@@ -57,9 +59,11 @@ export class FileUploadComponent implements OnInit {
           this.loading = false
         }
       })
+      window.location.reload()
   }
 
   deleteProspect(id: string) {
     this.api.deleteProspects(id).subscribe((data) => console.log(data))
+    window.location.reload()
   }
 }
