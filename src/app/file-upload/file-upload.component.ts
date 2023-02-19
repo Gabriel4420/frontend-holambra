@@ -9,12 +9,11 @@ import { distinctUntilChanged, interval, mergeMap } from 'rxjs'
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
 })
-export class FileUploadComponent implements OnInit, OnChanges {
+export class FileUploadComponent implements OnInit {
   public getAllData: any
 
   private setAllData: any
 
-  shortLink: string = ''
   loading: boolean = false
   file = null
 
@@ -41,25 +40,18 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.file = event.target.files[0]
   }
 
-  ngOnChanges() {
-    this.api.readProspects().subscribe((data) => {
-      this.setAllData = data
-      this.getAllData = this.setAllData
-    })
-  }
-
   onSubmit() {
     this.loading = !this.loading
     this.api
       .RegisterProspect(this.file, this.prospect.controls)
       .subscribe((event: any) => {
         if (typeof event === 'object') {
-          this.shortLink = event.link
-
           this.loading = false
         }
       })
+    setTimeout(() => {
       window.location.reload()
+    }, 3000)
   }
 
   deleteProspect(id: string) {

@@ -17,7 +17,10 @@ export class ApiService {
     formData.append('email', data.email.value)
     formData.append('phone', data.phone.value)
 
-    return this.http.post(`${this.baseApiUrl}/prospect/register`, formData)
+    return this.http
+      .post(`${this.baseApiUrl}/prospect/register`, formData)
+      .pipe(map((obj: any) => obj))
+      .pipe(retryWhen((errors) => errors.pipe(delay(1000), take(3))))
   }
 
   readProspects(): Observable<any> {
@@ -29,5 +32,36 @@ export class ApiService {
       .delete(`${this.baseApiUrl}/prospects/delete/${id}`)
       .pipe(map((obj: any) => obj))
       .pipe(retryWhen((errors) => errors.pipe(delay(1000), take(3))))
+  }
+
+  /* RegisterAddresses(data: any): Observable<any> {
+    const formData = new FormData()
+
+    formData.append('name', data.name.value)
+    formData.append('email', data.email.value)
+    formData.append('phone', data.phone.value)
+
+    return this.http
+      .post(`${this.baseApiUrl}/address/register`, formData)
+      .pipe(map((obj: any) => obj))
+      .pipe(retryWhen((errors) => errors.pipe(delay(1000), take(3))))
+  } */
+
+  readAdreeses(): Observable<any> {
+    return this.http.get(`${this.baseApiUrl}/addresses`)
+  }
+
+  deleteAddresses(id: string): Observable<any> {
+    return this.http
+      .delete(`${this.baseApiUrl}/addresses/delete/${id}`)
+      .pipe(map((obj: any) => obj))
+      .pipe(retryWhen((errors) => errors.pipe(delay(1000), take(3))))
+  }
+
+  getCountries(): Observable<any> {
+    debugger
+    return this.http
+      .get('https://servicodados.ibge.gov.br/api/v1/paises')
+
   }
 }
