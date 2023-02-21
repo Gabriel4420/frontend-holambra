@@ -21,13 +21,14 @@ export class AddressComponent implements OnInit {
 
   private setAllDataCountries: any
 
+  private mapAllDataCountries: any
+
   loading: boolean = false
   file = null
 
   @Input() address = new FormGroup({
     name: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl(''),
+    countries: new FormControl(''),
   })
 
   constructor(private api: ApiService, private sanitizer: DomSanitizer) {}
@@ -44,9 +45,11 @@ export class AddressComponent implements OnInit {
     })
 
     this.api.getCountries().subscribe((data) => {
-      this.setAllDataCountries = data
+
+      this.setAllDataCountries = data.filter((item: any, index: any, arr:any) => arr.indexOf(item) === index)
+      .map((item: any) => item.nome.abreviado).filter((item: any, index: any, arr:any) => arr.indexOf(item) === index)
       this.getAllDataCountries = this.setAllDataCountries
-      console.log(data)
+
     })
   }
 
@@ -58,7 +61,7 @@ export class AddressComponent implements OnInit {
     this.file = event.target.files[0]
   }
 
- /*  onSubmit() {
+  /*  onSubmit() {
     this.loading = !this.loading
     this.api
       .RegisterAddresses(this.address.controls)
@@ -72,8 +75,8 @@ export class AddressComponent implements OnInit {
     }, 3000)
   } */
 
-  onSubmit(){
-
+  onSubmit() {
+    console.log(this.getAllDataCountries)
   }
 
   deleteAddress(id: string) {

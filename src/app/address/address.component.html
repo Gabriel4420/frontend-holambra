@@ -7,11 +7,11 @@
     <div class="row g-2">
       <div class="col-6">
         <div class="form-floating my-3">
-          <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+          <select  class="form-select" id="floatingSelect" aria-label="Floating label select example"
             title="seletor de prospectandos">
-            <option selected>Selecione uma opção</option>
-            <option formControlName="name" *ngFor="let item of getAllDataProspects?.prospects" [ngValue]="item.id">
-              {{ item.name }}
+            <option formControlName="name" selected>Selecione uma opção</option>
+            <option *ngFor="let item of getAllDataProspects?.prospects" [ngValue]="item.id">
+              {{ item.name  }}
             </option>
           </select>
           <label for="floatingSelect">prospectano</label>
@@ -20,10 +20,10 @@
 
       <div class="col-6">
         <div class="form-floating my-3">
-          <select class="form-select" id="countrySelect" aria-label="Select de país" title="seletor de paises">
-
-            <option   >
-              abc
+          <select  class="form-select" id="countrySelect" aria-label="Select de país" title="seletor de paises">
+            <option formControlName="countries" selected>Selecione uma opção</option>
+            <option  *ngFor="let countries of getAllDataCountries" [ngValue]="countries">
+                {{ countries }}
             </option>
           </select>
           <label for="countrySelect">País</label>

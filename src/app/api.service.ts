@@ -59,9 +59,12 @@ export class ApiService {
   }
 
   getCountries(): Observable<any> {
-    debugger
-    return this.http
-      .get('https://servicodados.ibge.gov.br/api/v1/paises')
+    return this.http.get('https://servicodados.ibge.gov.br/api/v1/paises').pipe(
+      tap((dados: any) => {
 
+        return dados.json
+
+      }),
+    )
   }
 }
